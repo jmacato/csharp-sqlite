@@ -1,35 +1,33 @@
-using System.Diagnostics;
-
 namespace Community.CsharpSqlite
 {
-  using sqlite3_stmt = Sqlite3.Vdbe;
+    using sqlite3_stmt = Sqlite3.Vdbe;
 
-  public partial class Sqlite3
-  {
-    /*
-    ** 2007 May 1
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    **
-    ** This file contains code used to implement incremental BLOB I/O.
-    *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
-    **
-    **  $Header$
-    *************************************************************************
-    */
-    //#include "sqliteInt.h"
-    //#include "vdbeInt.h"
+    public partial class Sqlite3
+    {
+        /*
+        ** 2007 May 1
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        **
+        ** This file contains code used to implement incremental BLOB I/O.
+        *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
+        **
+        **  $Header$
+        *************************************************************************
+        */
+        //#include "sqliteInt.h"
+        //#include "vdbeInt.h"
 
 #if !SQLITE_OMIT_INCRBLOB
 /*
@@ -133,7 +131,7 @@ int sqlite3_blob_open(
     }
 
     /* Now search pTab for the exact column. */
-    for(iCol=0; iCol < pTab->nCol; iCol++) {
+    for(iCol = 0; iCol < pTab->nCol; iCol++) {
       if( sqlite3StrICmp(pTab->aCol[iCol].zName, zColumn)==0 ){
         break;
       }
@@ -160,9 +158,9 @@ int sqlite3_blob_open(
         ** key columns must be indexed. The check below will pick up this 
         ** case.  */
         FKey *pFKey;
-        for(pFKey=pTab->pFKey; pFKey; pFKey=pFKey->pNextFrom){
+        for(pFKey = pTab->pFKey; pFKey; pFKey = pFKey->pNextFrom){
           int j;
-          for(j=0; j<pFKey->nCol; j++){
+          for(j = 0; j<pFKey->nCol; j++){
             if( pFKey->aCol[j].iFrom==iCol ){
               zFault = "foreign key";
             }
@@ -170,9 +168,9 @@ int sqlite3_blob_open(
         }
       }
 #endif
-      for(pIdx=pTab->pIndex; pIdx; pIdx=pIdx->pNext){
+      for(pIdx = pTab->pIndex; pIdx; pIdx = pIdx->pNext){
         int j;
-        for(j=0; j<pIdx->nColumn; j++){
+        for(j = 0; j<pIdx->nColumn; j++){
           if( pIdx->aiColumn[j]==iCol ){
             zFault = "indexed";
           }
@@ -267,7 +265,7 @@ int sqlite3_blob_open(
       goto blob_open_out;
     }
     pBlob->flags = flags;
-    pBlob->pCsr =  v->apCsr[0]->pCursor;
+    pBlob->pCsr = v->apCsr[0]->pCursor;
     sqlite3BtreeEnterCursor(pBlob->pCsr);
     sqlite3BtreeCacheOverflow(pBlob->pCsr);
     sqlite3BtreeLeaveCursor(pBlob->pCsr);
@@ -392,5 +390,5 @@ int sqlite3_blob_bytes(sqlite3_blob *pBlob){
 }
 
 #endif // * #if !SQLITE_OMIT_INCRBLOB */
-  }
+    }
 }

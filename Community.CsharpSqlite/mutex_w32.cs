@@ -1,41 +1,35 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-
 namespace Community.CsharpSqlite
 {
-  public partial class Sqlite3
-  {
-    /*
-    ** 2007 August 14
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    ** This file contains the C functions that implement mutexes for win32
-    *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
-    **
-    **  $Header$
-    *************************************************************************
-    */
-    //#include "sqliteInt.h"
+    public partial class Sqlite3
+    {
+        /*
+        ** 2007 August 14
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        ** This file contains the C functions that implement mutexes for win32
+        *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
+        **
+        **  $Header$
+        *************************************************************************
+        */
+        //#include "sqliteInt.h"
 
-    /*
-    ** The code in this file is only used if we are compiling multithreaded
-    ** on a win32 system.
-    */
+        /*
+        ** The code in this file is only used if we are compiling multithreaded
+        ** on a win32 system.
+        */
 #if SQLITE_MUTEX_W32
-
-
 /*
 ** Each recursive mutex is an instance of the following structure.
 */
@@ -130,7 +124,7 @@ static int winMutexInit(void){
 /* The first to increment to 1 does actual initialization */
 if( InterlockedCompareExchange(winMutex_lock, 1, 0)==0 ){
 int i;
-for(i=0; i<ArraySize(winMutex_staticMutexes); i++){
+for(i = 0; i<ArraySize(winMutex_staticMutexes); i++){
 InitializeCriticalSection(&winMutex_staticMutexes[i].mutex);
 }
 winMutex_isInit = 1;
@@ -149,7 +143,7 @@ static int winMutexEnd(void){
 if( InterlockedCompareExchange(winMutex_lock, 0, 1)==1 ){
 if( winMutex_isInit==1 ){
 int i;
-for(i=0; i<ArraySize(winMutex_staticMutexes); i++){
+for(i = 0; i<ArraySize(winMutex_staticMutexes); i++){
 DeleteCriticalSection(&winMutex_staticMutexes[i].mutex);
 }
 winMutex_isInit = 0;
@@ -339,6 +333,5 @@ null
 return &sMutex;
 }
 #endif // * SQLITE_MUTEX_W32 */
-  }
+    }
 }
-

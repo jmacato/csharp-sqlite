@@ -1,37 +1,36 @@
 namespace Community.CsharpSqlite
 {
-  using sqlite3_value = Sqlite3.Mem;
-  using System;
+    using sqlite3_value = Sqlite3.Mem;
 
-  public partial class Sqlite3
-  {
-    /*
-    ** 2010 February 23
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    **
-    ** This file implements routines used to report what compile-time options
-    ** SQLite was built with.
-    *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
-    **
-    **  $Header$
-    *************************************************************************
-    */
+    public partial class Sqlite3
+    {
+        /*
+        ** 2010 February 23
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        **
+        ** This file implements routines used to report what compile-time options
+        ** SQLite was built with.
+        *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
+        **
+        **  $Header$
+        *************************************************************************
+        */
 
 #if !SQLITE_OMIT_COMPILEOPTION_DIAGS
 
-    //#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
 /*
 ** An array of names of all compile-time options.  This array should 
@@ -41,8 +40,8 @@ namespace Community.CsharpSqlite
 ** only a handful of compile-time options, so most times this array is usually
 ** rather short and uses little memory space.
 */
-static string[] azCompileOpt = {
-
+        private static readonly string[] azCompileOpt =
+        {
 /* These macros are provided to "stringify" the value of the define
 ** for those options in which the value is meaningful. */
 //#define CTIMEOPT_VAL_(opt) #opt
@@ -64,7 +63,7 @@ static string[] azCompileOpt = {
   "COVERAGE_TEST",
 #endif
 #if SQLITE_DEBUG
-  "DEBUG",
+            "DEBUG",
 #endif
 #if SQLITE_DEFAULT_LOCKING_MODE
   "DEFAULT_LOCKING_MODE=" CTIMEOPT_VAL(SQLITE_DEFAULT_LOCKING_MODE),
@@ -73,7 +72,7 @@ static string[] azCompileOpt = {
   "DISABLE_DIRSYNC",
 #endif
 #if SQLITE_DISABLE_LFS
-  "DISABLE_LFS",
+            "DISABLE_LFS",
 #endif
 #if SQLITE_ENABLE_ATOMIC_WRITE
   "ENABLE_ATOMIC_WRITE",
@@ -141,7 +140,7 @@ static string[] azCompileOpt = {
   "ENABLE_UPDATE_DELETE_LIMIT",
 #endif
 #if SQLITE_HAS_CODEC
-  "HAS_CODEC",
+            "HAS_CODEC",
 #endif
 #if SQLITE_HAVE_ISNAN
   "HAVE_ISNAN",
@@ -180,7 +179,7 @@ static string[] azCompileOpt = {
   "OMIT_ATTACH",
 #endif
 #if SQLITE_OMIT_AUTHORIZATION
-  "OMIT_AUTHORIZATION",
+            "OMIT_AUTHORIZATION",
 #endif
 #if SQLITE_OMIT_AUTOINCREMENT
   "OMIT_AUTOINCREMENT",
@@ -225,7 +224,7 @@ static string[] azCompileOpt = {
   "OMIT_DECLTYPE",
 #endif
 #if SQLITE_OMIT_DEPRECATED
-  "OMIT_DEPRECATED",
+            "OMIT_DEPRECATED",
 #endif
 #if SQLITE_OMIT_DISKIO
   "OMIT_DISKIO",
@@ -249,7 +248,7 @@ static string[] azCompileOpt = {
   "OMIT_GLOBALRECOVER",
 #endif
 #if SQLITE_OMIT_INCRBLOB
-  "OMIT_INCRBLOB",
+            "OMIT_INCRBLOB",
 #endif
 #if SQLITE_OMIT_INTEGRITY_CHECK
   "OMIT_INTEGRITY_CHECK",
@@ -264,7 +263,7 @@ static string[] azCompileOpt = {
   "OMIT_LOCALTIME",
 #endif
 #if SQLITE_OMIT_LOOKASIDE
-  "OMIT_LOOKASIDE",
+            "OMIT_LOOKASIDE",
 #endif
 #if SQLITE_OMIT_MEMORYDB
   "OMIT_MEMORYDB",
@@ -294,7 +293,7 @@ static string[] azCompileOpt = {
   "OMIT_SCHEMA_VERSION_PRAGMAS",
 #endif
 #if SQLITE_OMIT_SHARED_CACHE
-  "OMIT_SHARED_CACHE",
+            "OMIT_SHARED_CACHE",
 #endif
 #if SQLITE_OMIT_SUBQUERY
   "OMIT_SUBQUERY",
@@ -315,7 +314,7 @@ static string[] azCompileOpt = {
   "OMIT_TRUNCATE_OPTIMIZATION",
 #endif
 #if SQLITE_OMIT_UTF16
-  "OMIT_UTF16",
+            "OMIT_UTF16",
 #endif
 #if SQLITE_OMIT_VACUUM
   "OMIT_VACUUM",
@@ -324,7 +323,7 @@ static string[] azCompileOpt = {
   "OMIT_VIEW",
 #endif
 #if SQLITE_OMIT_VIRTUALTABLE
-  "OMIT_VIRTUALTABLE",
+            "OMIT_VIRTUALTABLE",
 #endif
 #if SQLITE_OMIT_WSD
   "OMIT_WSD",
@@ -359,7 +358,7 @@ static string[] azCompileOpt = {
 #if SQLITE_THREADSAFE
   "THREADSAFE=" CTIMEOPT_VAL(SQLITE_THREADSAFE),
 #else
-  "THREADSAFE=0", // For C#, hardcode to = 0
+            "THREADSAFE=0", // For C#, hardcode to = 0
 #endif
 #if SQLITE_USE_ALLOCA
   "USE_ALLOCA",
@@ -367,7 +366,7 @@ static string[] azCompileOpt = {
 #if SQLITE_ZERO_MALLOC
   "ZERO_MALLOC"
 #endif
-};
+        };
 
 /*
 ** Given the name of a compile-time option, return true if that option
@@ -376,33 +375,34 @@ static string[] azCompileOpt = {
 ** The name can optionally begin with "SQLITE_" but the "SQLITE_" prefix
 ** is not required for a match.
 */
-static int sqlite3_compileoption_used(string zOptName){
-  int i, n = 0 ;
-  if( sqlite3StrNICmp(zOptName, "SQLITE_", 7)==0 ) n = 7;
-  //n = sqlite3Strlen30(zOptName);
+        private static int sqlite3_compileoption_used(string zOptName)
+        {
+            int i, n = 0;
+            if (sqlite3StrNICmp(zOptName, "SQLITE_", 7) == 0) n = 7;
+            //n = sqlite3Strlen30(zOptName);
 
-  /* Since ArraySize(azCompileOpt) is normally in single digits, a
-  ** linear search is adequate.  No need for a binary search. */
-  if (!String.IsNullOrEmpty(zOptName))
-    for(i=0; i<ArraySize(azCompileOpt); i++){
-      if ((sqlite3StrNICmp(zOptName, n, azCompileOpt[i], zOptName.Length-n) == 0)
-       && ((azCompileOpt[i].Length == zOptName.Length - n) || (azCompileOpt[i][zOptName.Length - n] == '='))
-      ) return 1;
-  }
-  return 0;
-}
+            /* Since ArraySize(azCompileOpt) is normally in single digits, a
+            ** linear search is adequate.  No need for a binary search. */
+            if (!string.IsNullOrEmpty(zOptName))
+                for (i = 0; i < ArraySize(azCompileOpt); i++)
+                    if (sqlite3StrNICmp(zOptName, n, azCompileOpt[i], zOptName.Length - n) == 0
+                        && (azCompileOpt[i].Length == zOptName.Length - n ||
+                            azCompileOpt[i][zOptName.Length - n] == '=')
+                    )
+                        return 1;
+            return 0;
+        }
 
 /*
 ** Return the N-th compile-time option string.  If N is out of range,
 ** return a NULL pointer.
 */
-static string sqlite3_compileoption_get(int N){
-  if( N>=0 && N<ArraySize(azCompileOpt) ){
-    return azCompileOpt[N];
-  }
-  return null;
-}
+        private static string sqlite3_compileoption_get(int N)
+        {
+            if (N >= 0 && N < ArraySize(azCompileOpt)) return azCompileOpt[N];
+            return null;
+        }
 
 #endif //* SQLITE_OMIT_COMPILEOPTION_DIAGS */
-  }
+    }
 }

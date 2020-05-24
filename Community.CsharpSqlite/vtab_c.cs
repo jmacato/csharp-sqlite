@@ -1,32 +1,28 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
 namespace Community.CsharpSqlite
 {
-  public partial class Sqlite3
-  {
-    /*
-    ** 2006 June 10
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    ** This file contains code used to help implement virtual tables.
-    *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
-    **
-    **  $Header$
-    *************************************************************************
-    */
+    public partial class Sqlite3
+    {
+        /*
+        ** 2006 June 10
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        ** This file contains code used to help implement virtual tables.
+        *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2010-03-09 19:31:43 4ae453ea7be69018d8c16eb8dabe05617397dc4d
+        **
+        **  $Header$
+        *************************************************************************
+        */
 #if !SQLITE_OMIT_VIRTUALTABLE
 //#include "sqliteInt.h"
 
@@ -120,7 +116,7 @@ void sqlite3VtabLock(VTable *pVTab){
 VTable *sqlite3GetVTable(sqlite3 *db, Table *pTab){
   VTable *pVtab;
   assert( IsVirtual(pTab) );
-  for(pVtab=pTab->pVTable; pVtab && pVtab->db!=db; pVtab=pVtab->pNext);
+  for(pVtab = pTab->pVTable; pVtab && pVtab->db!=db; pVtab = pVtab->pNext);
   return pVtab;
 }
 
@@ -241,7 +237,7 @@ void sqlite3VtabClear(Table *p){
   vtabDisconnectAll(0, p);
   if( p->azModuleArg ){
     int i;
-    for(i=0; i<p->nModuleArg; i++){
+    for(i = 0; i<p->nModuleArg; i++){
       sqlite3DbFree(p->dbMem, p->azModuleArg[i]);
     }
     sqlite3DbFree(p->dbMem, p->azModuleArg);
@@ -261,7 +257,7 @@ static void addModuleArgument(sqlite3 *db, Table *pTable, char *zArg){
   azModuleArg = sqlite3DbRealloc(db, pTable->azModuleArg, nBytes);
   if( azModuleArg==0 ){
     int j;
-    for(j=0; j<i; j++){
+    for(j = 0; j<i; j++){
       sqlite3DbFree(db, ref pTable->azModuleArg[j]);
     }
     sqlite3DbFree(db, zArg);
@@ -506,14 +502,14 @@ static int vtabCallConstructor(
       pVTable->pNext = pTab->pVTable;
       pTab->pVTable = pVTable;
 
-      for(iCol=0; iCol<pTab->nCol; iCol++){
+      for(iCol = 0; iCol<pTab->nCol; iCol++){
         char *zType = pTab->aCol[iCol].zType;
         int nType;
         int i = 0;
         if( !zType ) continue;
         nType = sqlite3Strlen30(zType);
         if( sqlite3StrNICmp("hidden", zType, 6)||(zType[6] && zType[6]!=' ') ){
-          for(i=0; i<nType; i++){
+          for(i = 0; i<nType; i++){
             if( (0==sqlite3StrNICmp(" hidden", &zType[i], 7))
              && (zType[i+7]=='\0' || zType[i+7]==' ')
             ){
@@ -525,7 +521,7 @@ static int vtabCallConstructor(
         if( i<nType ){
           int j;
           int nDel = 6 + (zType[i+6] ? 1 : 0);
-          for(j=i; (j+nDel)<=nType; j++){
+          for(j = i; (j+nDel)<=nType; j++){
             zType[j] = zType[j+nDel];
           }
           if( zType[i]=='\0' && i>0 ){
@@ -748,7 +744,7 @@ int sqlite3VtabCallDestroy(sqlite3 *db, int iDb, const char *zTab){
 static void callFinaliser(sqlite3 *db, int offset){
   int i;
   if( db->aVTrans ){
-    for(i=0; i<db->nVTrans; i++){
+    for(i = 0; i<db->nVTrans; i++){
       VTable *pVTab = db->aVTrans[i];
       sqlite3_vtab *p = pVTab->pVtab;
       if( p ){
@@ -778,7 +774,7 @@ int sqlite3VtabSync(sqlite3 *db, char **pzErrmsg){
   VTable **aVTrans = db->aVTrans;
 
   db->aVTrans = 0;
-  for(i=0; rc==SQLITE_OK && i<db->nVTrans; i++){
+  for(i = 0; rc==SQLITE_OK && i<db->nVTrans; i++){
     int (*x)(sqlite3_vtab *);
     sqlite3_vtab *pVtab = aVTrans[i]->pVtab;
     if( pVtab && (x = pVtab->pModule->xSync)!=0 ){
@@ -840,7 +836,7 @@ int sqlite3VtabBegin(sqlite3 *db, VTable *pVTab){
 
 
     /* If pVtab is already in the aVTrans array, return early */
-    for(i=0; i<db->nVTrans; i++){
+    for(i = 0; i<db->nVTrans; i++){
       if( db->aVTrans[i]==pVTab ){
         return SQLITE_OK;
       }
@@ -902,7 +898,7 @@ FuncDef *sqlite3VtabOverloadFunction(
   */
   zLowerName = sqlite3DbStrDup(db, pDef->zName);
   if( zLowerName ){
-    for(z=(unsigned char*)zLowerName; *z; z++){
+    for(z = (unsigned char*)zLowerName; *z; z++){
       *z = sqlite3UpperToLower[*z];
     }
     rc = pMod->xFindFunction(pVtab, nArg, zLowerName, &xFunc, &pArg);
@@ -940,7 +936,7 @@ void sqlite3VtabMakeWritable(Parse *pParse, Table *pTab){
   Table **apVtabLock;
 
   assert( IsVirtual(pTab) );
-  for(i=0; i<pToplevel->nVtabLock; i++){
+  for(i = 0; i<pToplevel->nVtabLock; i++){
     if( pTab==pToplevel->apVtabLock[i] ) return;
   }
   n = (pToplevel->nVtabLock+1)*sizeof(pToplevel->apVtabLock[0]);
@@ -953,5 +949,5 @@ void sqlite3VtabMakeWritable(Parse *pParse, Table *pTab){
   }
 }
 #endif //* SQLITE_OMIT_VIRTUALTABLE */
-  }
+    }
 }

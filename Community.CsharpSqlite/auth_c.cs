@@ -1,45 +1,40 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
 namespace Community.CsharpSqlite
 {
-  using sqlite3_value = Sqlite3.Mem;
+    using sqlite3_value = Sqlite3.Mem;
 
-  public partial class Sqlite3
-  {
-    /*
-    ** 2003 January 11
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    ** This file contains code used to implement the sqlite3_set_authorizer()
-    ** API.  This facility is an optional feature of the library.  Embedded
-    ** systems that do not need this facility may omit it by recompiling
-    ** the library with -DSQLITE_OMIT_AUTHORIZATION=1
-    *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2009-12-07 16:39:13 1ed88e9d01e9eda5cbc622e7614277f29bcc551c
-    **
-    **  $Header$
-    *************************************************************************
-    */
-    //#include "sqliteInt.h"
+    public partial class Sqlite3
+    {
+        /*
+        ** 2003 January 11
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        ** This file contains code used to implement the sqlite3_set_authorizer()
+        ** API.  This facility is an optional feature of the library.  Embedded
+        ** systems that do not need this facility may omit it by recompiling
+        ** the library with -DSQLITE_OMIT_AUTHORIZATION=1
+        *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2009-12-07 16:39:13 1ed88e9d01e9eda5cbc622e7614277f29bcc551c
+        **
+        **  $Header$
+        *************************************************************************
+        */
+        //#include "sqliteInt.h"
 
-    /*
-    ** All of the code in this file may be omitted by defining a single
-    ** macro.
-    */
+        /*
+        ** All of the code in this file may be omitted by defining a single
+        ** macro.
+        */
 #if !SQLITE_OMIT_AUTHORIZATION
-
 /*
 ** Set or clear the access authorization function.
 **
@@ -174,7 +169,7 @@ return;
     pTab = pParse->pTriggerTab;
   }else{
     assert( pTabList );
-    for(iSrc=0; ALWAYS(iSrc<pTabList->nSrc); iSrc++){
+    for(iSrc = 0; ALWAYS(iSrc<pTabList->nSrc); iSrc++){
       if( pExpr->iTable==pTabList->a[iSrc].iCursor ){
         pTab = pTabList->a[iSrc].pTab;
 	break;
@@ -264,5 +259,5 @@ pContext->pParse = 0;
 }
 
 #endif //* SQLITE_OMIT_AUTHORIZATION */
-  }
+    }
 }

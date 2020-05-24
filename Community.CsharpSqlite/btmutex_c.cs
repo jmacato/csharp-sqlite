@@ -1,35 +1,33 @@
-using System.Diagnostics;
-
 namespace Community.CsharpSqlite
 {
-  public partial class Sqlite3
-  {
-    /*
-    ** 2007 August 27
-    **
-    ** The author disclaims copyright to this source code.  In place of
-    ** a legal notice, here is a blessing:
-    **
-    **    May you do good and not evil.
-    **    May you find forgiveness for yourself and forgive others.
-    **    May you share freely, never taking more than you give.
-    **
-    *************************************************************************
-    **
-    ** This file contains code used to implement mutexes on Btree objects.
-    ** This code really belongs in btree.c.  But btree.c is getting too
-    ** big and we want to break it down some.  This packaged seemed like
-    ** a good breakout.
-     *************************************************************************
-    **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
-    **  C#-SQLite is an independent reimplementation of the SQLite software library
-    **
-    **  SQLITE_SOURCE_ID: 2009-12-07 16:39:13 1ed88e9d01e9eda5cbc622e7614277f29bcc551c
-    **
-    **  $Header$
-    *************************************************************************
-    */
-    //#include "btreeInt.h"
+    public partial class Sqlite3
+    {
+        /*
+        ** 2007 August 27
+        **
+        ** The author disclaims copyright to this source code.  In place of
+        ** a legal notice, here is a blessing:
+        **
+        **    May you do good and not evil.
+        **    May you find forgiveness for yourself and forgive others.
+        **    May you share freely, never taking more than you give.
+        **
+        *************************************************************************
+        **
+        ** This file contains code used to implement mutexes on Btree objects.
+        ** This code really belongs in btree.c.  But btree.c is getting too
+        ** big and we want to break it down some.  This packaged seemed like
+        ** a good breakout.
+         *************************************************************************
+        **  Included in SQLite3 port to C#-SQLite;  2008 Noah B Hart
+        **  C#-SQLite is an independent reimplementation of the SQLite software library
+        **
+        **  SQLITE_SOURCE_ID: 2009-12-07 16:39:13 1ed88e9d01e9eda5cbc622e7614277f29bcc551c
+        **
+        **  $Header$
+        *************************************************************************
+        */
+        //#include "btreeInt.h"
 #if !SQLITE_OMIT_SHARED_CACHE
 #if SQLITE_THREADSAFE
 
@@ -121,7 +119,7 @@ return;
 ** the other BtShared locks that we used to hold in ascending
 ** order.
 */
-for(pLater=p->pNext; pLater; pLater=pLater->pNext){
+for(pLater = p->pNext; pLater; pLater = pLater->pNext){
 assert( pLater->sharable );
 assert( pLater->pNext==0 || pLater->pNext->pBt>pLater->pBt );
 assert( !pLater->locked || pLater->wantToLock>0 );
@@ -130,7 +128,7 @@ unlockBtreeMutex(pLater);
 }
 }
 lockBtreeMutex(p);
-for(pLater=p->pNext; pLater; pLater=pLater->pNext){
+for(pLater = p->pNext; pLater; pLater = pLater->pNext){
 if( pLater->wantToLock ){
 lockBtreeMutex(pLater);
 }
@@ -201,7 +199,7 @@ void sqlite3BtreeEnterAll(sqlite3 *db){
 int i;
 Btree *p, *pLater;
 assert( sqlite3_mutex_held(db->mutex) );
-for(i=0; i<db->nDb; i++){
+for(i = 0; i<db->nDb; i++){
 p = db->aDb[i].pBt;
 assert( !p || (p->locked==0 && p->sharable) || p->pBt->db==p->db );
 if( p && p->sharable ){
@@ -212,7 +210,7 @@ while( p->pPrev ) p = p->pPrev;
 /* Reason for ALWAYS:  There must be at least on unlocked Btree in
 ** the chain.  Otherwise the !p->locked test above would have failed */
 while( p->locked && ALWAYS(p->pNext) ) p = p->pNext;
-for(pLater = p->pNext; pLater; pLater=pLater->pNext){
+for(pLater = p->pNext; pLater; pLater = pLater->pNext){
 if( pLater->locked ){
 unlockBtreeMutex(pLater);
 }
@@ -229,7 +227,7 @@ void sqlite3BtreeLeaveAll(sqlite3 *db){
 int i;
 Btree *p;
 assert( sqlite3_mutex_held(db->mutex) );
-for(i=0; i<db->nDb; i++){
+for(i = 0; i<db->nDb; i++){
 p = db->aDb[i].pBt;
 if( p && p->sharable ){
 assert( p->wantToLock>0 );
@@ -253,7 +251,7 @@ int i;
 if( !sqlite3_mutex_held(db->mutex) ){
 return 0;
 }
-for(i=0; i<db->nDb; i++){
+for(i = 0; i<db->nDb; i++){
 Btree *p;
 p = db->aDb[i].pBt;
 if( p && p->sharable &&
@@ -284,7 +282,7 @@ BtShared *pBt;
 if( pBtree==0 || pBtree->sharable==0 ) return;
 #if !NDEBUG
 {
-for(i=0; i<pArray->nMutex; i++){
+for(i = 0; i<pArray->nMutex; i++){
 assert( pArray->aBtree[i]!=pBtree );
 }
 }
@@ -292,10 +290,10 @@ assert( pArray->aBtree[i]!=pBtree );
 assert( pArray->nMutex>=0 );
 assert( pArray->nMutex<ArraySize(pArray->aBtree)-1 );
 pBt = pBtree->pBt;
-for(i=0; i<pArray->nMutex; i++){
+for(i = 0; i<pArray->nMutex; i++){
 assert( pArray->aBtree[i]!=pBtree );
 if( pArray->aBtree[i]->pBt>pBt ){
-for(j=pArray->nMutex; j>i; j--){
+for(j = pArray->nMutex; j>i; j--){
 pArray->aBtree[j] = pArray->aBtree[j-1];
 }
 pArray->aBtree[i] = pBtree;
@@ -313,7 +311,7 @@ pArray->aBtree[pArray->nMutex++] = pBtree;
 */
 void sqlite3BtreeMutexArrayEnter(BtreeMutexArray *pArray){
 int i;
-for(i=0; i<pArray->nMutex; i++){
+for(i = 0; i<pArray->nMutex; i++){
 Btree *p = pArray->aBtree[i];
 /* Some basic sanity checking */
 assert( i==0 || pArray->aBtree[i-1]->pBt<p->pBt );
@@ -338,7 +336,7 @@ lockBtreeMutex(p);
 */
 void sqlite3BtreeMutexArrayLeave(BtreeMutexArray *pArray){
 int i;
-for(i=0; i<pArray->nMutex; i++){
+for(i = 0; i<pArray->nMutex; i++){
 Btree *p = pArray->aBtree[i];
 /* Some basic sanity checking */
 assert( i==0 || pArray->aBtree[i-1]->pBt<p->pBt );
@@ -374,6 +372,5 @@ p.pBt.db = p.db;
 }
 #endif //* if SQLITE_THREADSAFE */
 #endif //* ifndef SQLITE_OMIT_SHARED_CACHE */
-
-  }
+    }
 }
