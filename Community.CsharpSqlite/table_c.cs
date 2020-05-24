@@ -204,7 +204,7 @@ return rc;
 /*
 ** This routine frees the space the sqlite3_get_table() malloced.
 */
-static void //sqlite3_free_table(
+static void sqlite3_free_table(
 ref string azResult            /* Result returned from from sqlite3_get_table() */
 ){
 if( azResult !=null){

@@ -5,10 +5,7 @@
 */
 using System;
 using System.Diagnostics;
-using System.IO;
-#if !SQLITE_SILVERLIGHT
-using System.Management;
-#endif
+using System.IO; 
 using System.Text;
 
 using i64 = System.Int64;
@@ -311,24 +308,25 @@ namespace Community.CsharpSqlite
     // Example (C#)
     public static int GetbytesPerSector( StringBuilder diskPath )
     {
-#if !SQLITE_SILVERLIGHT
-      ManagementObjectSearcher mosLogicalDisks = new ManagementObjectSearcher( "select * from Win32_LogicalDisk where DeviceID = '" + diskPath.ToString().Remove( diskPath.Length - 1, 1 ) + "'" );
-      try
-      {
-        foreach ( ManagementObject moLogDisk in mosLogicalDisks.Get() )
-        {
-          ManagementObjectSearcher mosDiskDrives = new ManagementObjectSearcher( "select * from Win32_DiskDrive where SystemName = '" + moLogDisk["SystemName"] + "'" );
-          foreach ( ManagementObject moPDisk in mosDiskDrives.Get() )
-          {
-            return int.Parse( moPDisk["BytesPerSector"].ToString() );
-          }
-        }
-      }
-      catch { }
-      return 4096;
-#else
-      return 4096;
-#endif
+// #if !SQLITE_SILVERLIGHT
+//       ManagementObjectSearcher mosLogicalDisks = new ManagementObjectSearcher( "select * from Win32_LogicalDisk where DeviceID = '" + diskPath.ToString().Remove( diskPath.Length - 1, 1 ) + "'" );
+//       try
+//       {
+//         foreach ( ManagementObject moLogDisk in mosLogicalDisks.Get() )
+//         {
+//           ManagementObjectSearcher mosDiskDrives = new ManagementObjectSearcher( "select * from Win32_DiskDrive where SystemName = '" + moLogDisk["SystemName"] + "'" );
+//           foreach ( ManagementObject moPDisk in mosDiskDrives.Get() )
+//           {
+//             return int.Parse( moPDisk["BytesPerSector"].ToString() );
+//           }
+//         }
+//       }
+//       catch { }
+//       return 4096;
+// #else
+//       return 4096;
+// #endif
+ return 4096;
     }
 
     static void SWAP<T>( ref T A, ref T B ) { T t = A; A = B; B = t; }
